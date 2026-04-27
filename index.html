@@ -1292,6 +1292,27 @@ function wxSwitch(side) {
 .db-sdot{width:5px;height:5px;border-radius:50%;background:#10B981;animation:dbblink 2s infinite;}
 @keyframes dbblink{0%,100%{opacity:1}50%{opacity:0.3}}
 .db-status-right{font-size:9px;color:rgba(255,255,255,0.2);}
+
+/* Responsive */
+@media(max-width:900px){
+  .db{padding:20px 18px;}
+  .db-kpis{grid-template-columns:repeat(2,1fr);}
+  .db-mid{grid-template-columns:1fr;gap:12px;}
+  .db-bottom{grid-template-columns:1fr;}
+  .db-chart-svg{height:96px;}
+}
+@media(max-width:600px){
+  .db{padding:18px 14px;}
+  .db-kpis{grid-template-columns:1fr;}
+  .db-mid{grid-template-columns:1fr;}
+  .db-bottom{grid-template-columns:1fr;}
+  .db-panel{padding:14px 14px;}
+  .db-kpi{padding:14px 14px;}
+  .db-kpi-val{font-size:22px;}
+  .db-status{flex-direction:column;align-items:flex-start;gap:6px;}
+  .db-rev-name{width:70px;}
+  .db-rev-amt{width:44px;}
+}
 </style>
 
 <div class="db">
