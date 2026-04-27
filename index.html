@@ -52,6 +52,9 @@ nav{position:sticky;top:0;z-index:200;background:#0F1218;border-bottom:1px solid
 .nav-link:hover{color:rgba(255,255,255,0.85);}
 .nav-btn{background:var(--blue-mid);color:var(--white);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:8px 20px;border-radius:6px;letter-spacing:0.01em;text-decoration:none;transition:background 0.2s,transform 0.15s;}
 .nav-btn:hover{background:#1A48C8;transform:translateY(-1px);}
+.nav-enhanced{display:flex;align-items:center;gap:18px;}
+/* Desktop: keep internal section links inside enhanced nav (JS). */
+.nav-right > .nav-link{display:none;}
 .nav-btn-glow{
   box-shadow:0 0 0 1px rgba(46,93,232,0.25),0 10px 30px rgba(46,93,232,0.35);
 }
@@ -318,7 +321,9 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
   .steps-row::before{display:none;}
   .step{padding-right:0;padding-bottom:32px;}
   .vis-inner{grid-template-columns:1fr;}
-  .nav-right .nav-link{display:none;}
+  /* On smaller screens, hide enhanced (external) nav and keep on-page links */
+  .nav-enhanced{display:none;}
+  .nav-right > .nav-link{display:inline-block;}
   .kpi-3{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:600px){
@@ -336,11 +341,12 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
     <img src="Logo.webp" alt="VACEI" class="nav-logo-img" />
 </a>
   <div class="nav-right" id="navRight">
-    <!-- Keep original links (fallback / no-JS) -->
-    <a href="#features" class="nav-link">Services</a>
+    <!-- Keep original links (same page sections) -->
+    <a href="#features" class="nav-link">Features</a>
     <a href="#how" class="nav-link">How It Works</a>
     <a href="#portal" class="nav-link">Your Portal</a>
-    <a href="#" class="nav-btn">Access Portal</a>
+    <!-- Enhanced vacei.com nav + CTAs (kept at the end) -->
+    <div class="nav-enhanced" id="navRightEnhanced"></div>
   </div>
 </nav>
 
@@ -798,7 +804,7 @@ function wxSwitch(side) {
     logo.setAttribute("rel", "noopener noreferrer");
   }
 
-  var host = document.getElementById("navRight");
+  var host = document.getElementById("navRightEnhanced");
   if (!host || !Array.isArray(links) || links.length === 0) return;
 
   function joinUrl(base, slug) {
@@ -856,6 +862,22 @@ function wxSwitch(side) {
     menu.appendChild(wrap);
   });
 
+  // Insert the internal (same-page) links between Resources and the CTAs.
+  [
+    { title: "Features", href: "#features" },
+    { title: "How It Works", href: "#how" },
+    { title: "Your Portal", href: "#portal" },
+  ].forEach(function (l) {
+    var w = document.createElement("div");
+    w.className = "nav-item";
+    var a = document.createElement("a");
+    a.className = "nav-link";
+    a.textContent = l.title;
+    a.href = l.href;
+    w.appendChild(a);
+    menu.appendChild(w);
+  });
+
   // CTA button (Access Portal)
   var cta = document.createElement("a");
   cta.className = "nav-btn";
@@ -872,7 +894,7 @@ function wxSwitch(side) {
   meet.target = "_blank";
   meet.rel = "noopener noreferrer";
 
-  // Replace existing content.
+  // Render enhanced content without touching the original on-page links.
   host.innerHTML = "";
   host.appendChild(menu);
   host.appendChild(meet);
