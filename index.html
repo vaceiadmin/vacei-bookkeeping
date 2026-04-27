@@ -43,6 +43,7 @@ body{font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;color:var(--t
 /* NAV — dark */
 nav{position:sticky;top:0;z-index:200;background:#0F1218;border-bottom:1px solid rgba(255,255,255,0.07);padding:0 6vw;height:62px;display:flex;align-items:center;justify-content:space-between;}
 .logo{font-family:'Inter',sans-serif;font-size:20px;font-weight:600;letter-spacing:0.04em;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:2px;}
+.nav-logo-img{height:30px;width:auto;display:block;object-fit:contain;}
 .logo-e{color:#3468F5;}
 .logo-dot{width:6px;height:6px;border-radius:50%;background:var(--green-mid);margin-left:4px;margin-top:-8px;flex-shrink:0;animation:blink 2.5s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
@@ -250,6 +251,7 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
 .video-wrap{background:var(--white);border-top:1px solid var(--light-border);padding:96px 6vw;}
 .video-frame{margin:40px 0 32px;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--light-border);box-shadow:0 8px 32px rgba(13,17,23,0.08);}
 .video-placeholder{background:#0F1218;height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;position:relative;}
+.video-embed{display:block;width:100%;height:420px;background:#0F1218;object-fit:cover;}
 .play-btn{width:72px;height:72px;border-radius:50%;background:rgba(52,104,245,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s,background 0.2s;border:2px solid rgba(255,255,255,0.2);}
 .play-btn:hover{transform:scale(1.08);background:var(--blue-mid);}
 .video-label{font-size:14px;color:rgba(255,255,255,0.3);letter-spacing:0.05em;font-weight:400;}
@@ -331,18 +333,7 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
 <!-- NAV — dark -->
 <nav>
   <a href="#" class="logo" id="navLogoLink" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="32" height="32" rx="8" fill="#0F0F0F"/>
-    <path d="M8 10L14 22H18L24 10H20.5L16 19.2L11.5 10H8Z" fill="url(#vgrad)"/>
-    <defs>
-      <linearGradient id="vgrad" x1="8" y1="10" x2="24" y2="22" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stop-color="#4F8EF7"/>
-        <stop offset="100%" stop-color="#7B5CF5"/>
-      </linearGradient>
-    </defs>
-  </svg>
-  <span style="font-family:'Inter',sans-serif;font-size:19px;font-weight:600;letter-spacing:0.06em;color:#fff;">VAC<span style="color:#4F8EF7;">E</span>I</span>
-  <span class="logo-dot"></span>
+    <img src="Logo.webp" alt="VACEI" class="nav-logo-img" />
 </a>
   <div class="nav-right" id="navRight">
     <!-- Keep original links (fallback / no-JS) -->
@@ -896,12 +887,10 @@ function wxSwitch(side) {
     <h2 class="section-h">See how VACEI works in practice</h2>
     <p class="section-p">Understand how your bookkeeping is managed, how your portal works, and how you gain full visibility over your Malta business finances.</p>
     <div class="video-frame">
-      <div class="video-placeholder">
-        <div class="play-btn">
-          <svg width="22" height="26" viewBox="0 0 22 26" fill="none"><path d="M2 2L20 13L2 24V2Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        </div>
-        <span class="video-label">Embed Video Here</span>
-      </div>
+      <video class="video-embed" controls playsinline preload="metadata">
+        <source src="Vacei_Fix_1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
     <ul class="video-points">
       <li><span class="vp-dot"></span>See how documents are uploaded and processed</li>
