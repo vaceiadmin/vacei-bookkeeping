@@ -39,6 +39,7 @@ html{scroll-behavior:smooth}
   --r:8px;--r-lg:16px;--r-xl:24px;
 }
 body{font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;color:var(--text-primary);background:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+html,body{max-width:100%;}
 
 /* NAV — dark */
 nav{position:sticky;top:0;z-index:200;background:#0F1218;border-bottom:1px solid rgba(255,255,255,0.07);padding:0 6vw;height:62px;display:flex;align-items:center;justify-content:space-between;}
@@ -47,14 +48,55 @@ nav{position:sticky;top:0;z-index:200;background:#0F1218;border-bottom:1px solid
 .logo-e{color:#3468F5;}
 .logo-dot{width:6px;height:6px;border-radius:50%;background:var(--green-mid);margin-left:4px;margin-top:-8px;flex-shrink:0;animation:blink 2.5s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
-.nav-right{display:flex;gap:28px;align-items:center;}
+.nav-right{display:flex;gap:22px;align-items:center;justify-content:flex-end;flex-wrap:wrap;}
 .nav-link{font-size:13px;font-weight:400;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;letter-spacing:0.01em;}
 .nav-link:hover{color:rgba(255,255,255,0.85);}
-.nav-btn{background:var(--blue-mid);color:var(--white);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:8px 20px;border-radius:6px;letter-spacing:0.01em;text-decoration:none;transition:background 0.2s,transform 0.15s;}
+.nav-btn{background:var(--blue-mid);color:var(--white);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:8px 20px;border-radius:6px;letter-spacing:0.01em;text-decoration:none;transition:background 0.2s,transform 0.15s;white-space:nowrap;}
 .nav-btn:hover{background:#1A48C8;transform:translateY(-1px);}
-.nav-enhanced{display:flex;align-items:center;gap:18px;}
+.nav-enhanced{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:flex-end;}
 /* Desktop: keep internal section links inside enhanced nav (JS). */
 .nav-right > .nav-link{display:none;}
+.nav-burger{
+  appearance:none;border:1px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.04);
+  width:42px;height:38px;border-radius:10px;
+  display:none;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform 0.15s,background 0.2s,border-color 0.2s;
+}
+.nav-burger:hover{transform:translateY(-1px);background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.2);}
+.nav-burger-lines{display:flex;flex-direction:column;gap:5px;}
+.nav-burger-lines span{display:block;width:18px;height:2px;border-radius:2px;background:rgba(255,255,255,0.75);}
+
+/* Mobile menu panel */
+.nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);display:none;z-index:500;}
+.nav-mobile{
+  position:fixed;top:0;right:0;height:100vh;width:min(360px,92vw);
+  background:#0F1218;border-left:1px solid rgba(255,255,255,0.08);
+  box-shadow:-18px 0 60px rgba(0,0,0,0.55);
+  transform:translateX(110%);transition:transform 0.22s ease;
+  z-index:600;display:flex;flex-direction:column;
+}
+.nav-mobile-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.nav-mobile-title{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);font-weight:600;}
+.nav-mobile-close{appearance:none;border:0;background:transparent;color:rgba(255,255,255,0.7);cursor:pointer;font-size:22px;line-height:1;padding:6px 10px;border-radius:10px;}
+.nav-mobile-close:hover{background:rgba(255,255,255,0.06);}
+.nav-mobile-body{padding:12px 14px 18px;overflow:auto;}
+.nav-m-section{margin-top:10px;}
+.nav-m-link{display:block;padding:12px 12px;border-radius:12px;color:rgba(255,255,255,0.78);text-decoration:none;font-size:14px;}
+.nav-m-link:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.92);}
+.nav-m-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.nav-m-cta a{flex:1 1 140px;text-align:center;}
+.nav-m-details{border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;margin-top:10px;}
+.nav-m-details summary{list-style:none;cursor:pointer;padding:12px 12px;color:rgba(255,255,255,0.78);font-size:14px;display:flex;align-items:center;justify-content:space-between;}
+.nav-m-details summary::-webkit-details-marker{display:none;}
+.nav-m-details[open] summary{background:rgba(255,255,255,0.04);}
+.nav-m-sub{padding:6px 6px 10px;}
+.nav-m-sub a{display:block;padding:10px 10px;border-radius:12px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;}
+.nav-m-sub a:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.9);}
+
+body.nav-open{overflow:hidden;}
+body.nav-open .nav-overlay{display:block;}
+body.nav-open .nav-mobile{transform:translateX(0);}
 .nav-btn-glow{
   box-shadow:0 0 0 1px rgba(46,93,232,0.25),0 10px 30px rgba(46,93,232,0.35);
 }
@@ -63,7 +105,7 @@ nav{position:sticky;top:0;z-index:200;background:#0F1218;border-bottom:1px solid
 }
 
 /* Navbar dropdowns (vacei.com-style) */
-.nav-menu{display:flex;align-items:center;gap:22px;}
+.nav-menu{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
 .nav-item{position:relative;display:flex;align-items:center;}
 .nav-parent{
   appearance:none;border:0;background:transparent;cursor:pointer;
@@ -75,7 +117,7 @@ nav{position:sticky;top:0;z-index:200;background:#0F1218;border-bottom:1px solid
 .nav-caret{width:10px;height:10px;opacity:0.7;transform:translateY(1px);}
 .nav-dropdown{
   position:absolute;top:100%;left:-8px;
-  min-width:240px;max-width:320px;
+  min-width:240px;max-width:min(320px,calc(100vw - 24px));
   padding:10px;background:#0F1218;border:1px solid rgba(255,255,255,0.08);
   border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,0.55);
   display:none;z-index:999;
@@ -83,8 +125,8 @@ nav{position:sticky;top:0;z-index:200;background:#0F1218;border-bottom:1px solid
 .nav-item:hover .nav-dropdown{display:block;}
 .nav-item:hover .nav-dropdown.two-col{display:block;}
 .nav-dropdown.two-col{
-  min-width:420px;
-  max-width:520px;
+  min-width:min(420px,calc(100vw - 24px));
+  max-width:min(520px,calc(100vw - 24px));
   column-count:2;
   column-gap:14px;
 }
@@ -253,8 +295,8 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
 /* VIDEO SECTION */
 .video-wrap{background:var(--white);border-top:1px solid var(--light-border);padding:96px 6vw;}
 .video-frame{margin:40px 0 32px;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--light-border);box-shadow:0 8px 32px rgba(13,17,23,0.08);}
-.video-placeholder{background:#0F1218;height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;position:relative;}
-.video-embed{display:block;width:100%;height:420px;background:#0F1218;object-fit:cover;}
+.video-placeholder{background:#0F1218;height:clamp(240px,40vw,420px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;position:relative;}
+.video-embed{display:block;width:100%;height:clamp(240px,40vw,420px);background:#0F1218;object-fit:cover;}
 .play-btn{width:72px;height:72px;border-radius:50%;background:rgba(52,104,245,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s,background 0.2s;border:2px solid rgba(255,255,255,0.2);}
 .play-btn:hover{transform:scale(1.08);background:var(--blue-mid);}
 .video-label{font-size:14px;color:rgba(255,255,255,0.3);letter-spacing:0.05em;font-weight:400;}
@@ -303,12 +345,16 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
   .vis-wrap-dark{background:#0F1218;padding:80px 6vw 72px;}
   .vis-inner-new{max-width:1200px;margin:0 auto;}
   .vis-header{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-bottom:48px;}
-  .vis-header-left{display:flex;align-items:center;gap:10px;}
+  .vis-header-left{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;}
+  .vis-header-right{min-width:0;}
   .vis-header-right{padding-top:8px;}
   .vis-dashboard-wrap{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);box-shadow:0 16px 48px rgba(0,0,0,0.4);}
 
 /* RESPONSIVE */
 @media(max-width:960px){
+  nav{height:auto;min-height:62px;padding-top:10px;padding-bottom:10px;}
+  .nav-right{gap:14px;}
+  .nav-menu{gap:14px;}
   .vis-header{grid-template-columns:1fr;gap:28px;}
   .video-points{grid-template-columns:1fr;}
   .steps-row-light{grid-template-columns:1fr;}
@@ -316,6 +362,7 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
   .step-light{padding-right:0;padding-bottom:32px;}
   .vis-inner{grid-template-columns:1fr;}
   .hero{grid-template-columns:1fr;gap:52px;}
+  .hero{padding:62px 0 72px;}
   .feat-grid{grid-template-columns:1fr 1fr;}
   .steps-row{grid-template-columns:1fr;}
   .steps-row::before{display:none;}
@@ -323,13 +370,26 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
   .vis-inner{grid-template-columns:1fr;}
   /* On smaller screens, hide enhanced (external) nav and keep on-page links */
   .nav-enhanced{display:none;}
-  .nav-right > .nav-link{display:inline-block;}
+  .nav-right > .nav-link{display:none;}
+  .nav-burger{display:flex;}
   .kpi-3{grid-template-columns:1fr 1fr;}
+
+  /* Dropdowns: single-column if ever shown */
+  .nav-dropdown.two-col{column-count:1;min-width:min(320px,calc(100vw - 24px));}
 }
 @media(max-width:600px){
   .feat-grid{grid-template-columns:1fr;}
   .metrics-2{grid-template-columns:1fr 1fr;}
   .trust-inner{gap:10px;}
+  .hero{padding:52px 0 62px;}
+  .hero-sub{font-size:16px;}
+  .cta-row a{width:100%;justify-content:center;}
+}
+@media(max-width:420px){
+  nav{padding-left:5vw;padding-right:5vw;}
+  .nav-right{gap:10px;}
+  .metrics-2{grid-template-columns:1fr;}
+  .kpi-3{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -341,6 +401,11 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
     <img src="Logo.webp" alt="VACEI" class="nav-logo-img" />
 </a>
   <div class="nav-right" id="navRight">
+    <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-controls="navMobile" aria-expanded="false">
+      <span class="nav-burger-lines" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
     <!-- Keep original links (same page sections) -->
     <a href="#features" class="nav-link">Features</a>
     <a href="#how" class="nav-link">How It Works</a>
@@ -349,6 +414,17 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
     <div class="nav-enhanced" id="navRightEnhanced"></div>
   </div>
 </nav>
+
+<div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
+<aside class="nav-mobile" id="navMobile" aria-hidden="true">
+  <div class="nav-mobile-head">
+    <div class="nav-mobile-title">Menu</div>
+    <button class="nav-mobile-close" id="navClose" type="button" aria-label="Close menu">×</button>
+  </div>
+  <div class="nav-mobile-body" id="navMobileBody">
+    <!-- Filled by JS -->
+  </div>
+</aside>
 
 
 <!-- HERO — dark -->
@@ -639,7 +715,7 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
 
 <style>
 /* ── VACEI Explainer Section ── */
-.wx-section{background:#0F1218;padding:96px 6vw;border-top:1px solid rgba(255,255,255,0.07);}
+.wx-section{background:#0F1218;padding:96px 6vw;border-top:1px solid rgba(255,255,255,0.07);overflow-x:hidden;}
 .wx-inner{max-width:1100px;margin:0 auto;}
 
 /* Header */
@@ -683,7 +759,7 @@ footer{background:#0F1218;border-top:1px solid var(--dark-border);padding:28px 6
 .wx-feature-list li span{font-size:12px;color:rgba(255,255,255,0.35);}
 
 /* Panel right — tablet mockup */
-.wx-panel-right{position:relative;display:flex;align-items:center;justify-content:center;}
+.wx-panel-right{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .wx-panel-right::before{content:'';position:absolute;inset:-80px -80px;background:radial-gradient(ellipse at 55% 45%,rgba(46,93,232,0.18) 0%,rgba(46,93,232,0.04) 40%,transparent 70%);pointer-events:none;z-index:0;}
 .wx-panel-right.portal-glow::before{background:radial-gradient(ellipse at 55% 45%,rgba(16,185,129,0.15) 0%,rgba(16,185,129,0.04) 40%,transparent 70%);}
 
@@ -756,6 +832,7 @@ svg.wx-chart{width:100%;height:48px;display:block;overflow:visible;}
   .wx-panel{grid-template-columns:1fr;}
   .wx-portal-kpis{grid-template-columns:repeat(3,1fr);}
   .wx-combined-eq{gap:8px;}
+  .wx-panel-right::before{inset:-40px -40px;}
 }
 </style>
 
@@ -899,6 +976,105 @@ function wxSwitch(side) {
   host.appendChild(menu);
   host.appendChild(meet);
   host.appendChild(cta);
+
+  // Mobile hamburger menu (includes both internal + external links)
+  var burger = document.getElementById("navBurger");
+  var overlay = document.getElementById("navOverlay");
+  var mobile = document.getElementById("navMobile");
+  var closeBtn = document.getElementById("navClose");
+  var mobileBody = document.getElementById("navMobileBody");
+
+  function setOpen(isOpen) {
+    document.body.classList.toggle("nav-open", isOpen);
+    if (burger) burger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    if (overlay) overlay.setAttribute("aria-hidden", isOpen ? "false" : "true");
+    if (mobile) mobile.setAttribute("aria-hidden", isOpen ? "false" : "true");
+  }
+
+  function buildMobile() {
+    if (!mobileBody) return;
+    mobileBody.innerHTML = "";
+
+    // Internal section links
+    var internal = document.createElement("div");
+    internal.className = "nav-m-section";
+    [
+      { title: "Features", href: "#features" },
+      { title: "How It Works", href: "#how" },
+      { title: "Your Portal", href: "#portal" },
+    ].forEach(function (l) {
+      var a = document.createElement("a");
+      a.className = "nav-m-link";
+      a.textContent = l.title;
+      a.href = l.href;
+      a.addEventListener("click", function () { setOpen(false); });
+      internal.appendChild(a);
+    });
+    mobileBody.appendChild(internal);
+
+    // External nav (vacei.com)
+    var ext = document.createElement("div");
+    ext.className = "nav-m-section";
+    links.forEach(function (item) {
+      if (!item) return;
+      if (Array.isArray(item.sublinks) && item.sublinks.length) {
+        var det = document.createElement("details");
+        det.className = "nav-m-details";
+        var sum = document.createElement("summary");
+        sum.innerHTML = '<span>' + (item.title || "") + '</span><span style="opacity:.6">▾</span>';
+        det.appendChild(sum);
+        var sub = document.createElement("div");
+        sub.className = "nav-m-sub";
+        item.sublinks.forEach(function (sl) {
+          var a = document.createElement("a");
+          a.textContent = sl.title || "";
+          a.href = joinUrl(LIVE, sl.slug);
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          sub.appendChild(a);
+        });
+        det.appendChild(sub);
+        ext.appendChild(det);
+      } else {
+        var aTop = document.createElement("a");
+        aTop.className = "nav-m-link";
+        aTop.textContent = item.title || "";
+        aTop.href = joinUrl(LIVE, item.slug);
+        aTop.target = "_blank";
+        aTop.rel = "noopener noreferrer";
+        ext.appendChild(aTop);
+      }
+    });
+    mobileBody.appendChild(ext);
+
+    // CTAs
+    var ctas = document.createElement("div");
+    ctas.className = "nav-m-cta";
+    var meet2 = document.createElement("a");
+    meet2.className = "nav-btn nav-btn-glow";
+    meet2.textContent = "Schedule a meet";
+    meet2.href = CALENDLY;
+    meet2.target = "_blank";
+    meet2.rel = "noopener noreferrer";
+    var portal2 = document.createElement("a");
+    portal2.className = "nav-btn";
+    portal2.textContent = "Access Portal";
+    portal2.href = joinUrl(LIVE, "/portal/client-portal");
+    portal2.target = "_blank";
+    portal2.rel = "noopener noreferrer";
+    ctas.appendChild(meet2);
+    ctas.appendChild(portal2);
+    mobileBody.appendChild(ctas);
+  }
+
+  buildMobile();
+
+  if (burger) burger.addEventListener("click", function () { setOpen(true); });
+  if (overlay) overlay.addEventListener("click", function () { setOpen(false); });
+  if (closeBtn) closeBtn.addEventListener("click", function () { setOpen(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") setOpen(false);
+  });
 })();
 </script>
 
